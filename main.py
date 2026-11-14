@@ -1,3 +1,5 @@
+from InquirerPy import prompt
+
 saldo = 0.0
 limite = 500.0
 extrato = ""
@@ -6,47 +8,49 @@ LIMITE_SAQUE = 3
 
 def main():
     global saldo, extrato, numeroSaques
-    
+
+    # Definição das perguntas/menu interativo usando InquirerPy
+    perguntas = [
+        {
+            "type": "list",
+            "name": "opcao",
+            "message": "Escolha a opção desejada:",
+            "choices": ["Depositar", "Sacar", "Ver Extrato", "Sair"],
+        }
+    ]
+
     while True:
-        print("""
-================ MENU ===============
-1. Depositar
-2. Sacar
-3. Extrato
-4. Sair
-=====================================
-""")
+        # Executa o prompt interativo
+        resposta = prompt(perguntas)
+        
+        # Se o usuário cancelar com Ctrl+C, o retorno pode ser vazio, evitamos erro com um check
+        if not resposta:
+            print("\nPrograma encerrado!")
+            break
 
-        try:
-            opc = int(input("Digite sua opção: "))
+        escolha = resposta.get("opcao")
 
-            match opc:
-                case 1:
-                    try:
-                        valor = float(input("Digite o valor a ser depositado: R$ "))
-                        depositar(valor)
-                    except ValueError:
-                        print("\n[ERRO]: Digite apenas números válidos para o valor.")
-                
-                case 2:
-                    try:
-                        valor = float(input("Digite o valor a ser sacado: R$ "))
-                        sacar(valor)
-                    except ValueError:
-                        print("\n[ERRO]: Digite apenas números válidos para o valor.")
-                
-                case 3:
-                    exibir_extrato()
-                
-                case 4:
-                    print("\nPrograma encerrado! Obrigado por utilizar nossos serviços.")
-                    break
-                
-                case _:
-                    print("\n[ERRO]: Digite um valor entre 1 e 4.")
+        match escolha:
+            case "Depositar":
+                try:
+                    valor = float(input("Digite o valor a ser depositado: R$ "))
+                    depositar(valor)
+                except ValueError:
+                    print("\n[ERRO]: Digite apenas números válidos para o valor.")
             
-        except ValueError:
-            print("\n[ERRO]: Digite apenas números inteiros para escolher a opção.")
+            case "Sacar":
+                try:
+                    valor = float(input("Digite o valor a ser sacado: R$ "))
+                    sacar(valor)
+                except ValueError:
+                    print("\n[ERRO]: Digite apenas números válidos para o valor.")
+            
+            case "Ver Extrato":
+                exibir_extrato()
+            
+            case "Sair":
+                print("\nPrograma encerrado! Obrigado por utilizar nossos serviços.")
+                break
 
 def depositar(valor):
     global saldo, extrato
