@@ -23,9 +23,13 @@ def main():
                         valor = int(input("Digite o valor a ser adicionado"))
                         depositar()
                     except ValueError:
-                        print("DIgite apenas núemros")
+                        print("DIgite apenas números")
                 case 2:
-                    sacar()
+                    try:
+                         valor = int(input("Digite o valor a ser adicionado"))
+                         sacar()
+                    except ValueError:
+                        print("DIgite apenas núemros")
                 case 3:
                     extrato()   
                 case 4:
@@ -63,7 +67,7 @@ def sacar(valor):
             print("Digite um valor maior que 0 (zero)!")
 
 def extrato():
-
+    pass
 
 
 if __name__ == "__main__":
